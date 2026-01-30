@@ -13,6 +13,9 @@ COPY packages/api/package.json ./packages/api/
 COPY packages/core/package.json ./packages/core/
 COPY packages/shared/package.json ./packages/shared/
 
+# Copy patches (required by pnpm for patched packages)
+COPY patches/ ./patches/
+
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
