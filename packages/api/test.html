@@ -10,6 +10,7 @@
         margin: 0;
         padding: 0;
       }
+
       body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -73,124 +74,124 @@
         .main-grid {
           grid-template-columns: 1fr;
         }
+      }
 
-        .panel {
-          background: white;
-          border-radius: 12px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-          overflow: hidden;
-        }
+      .panel {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+      }
 
-        .panel-header {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          color: white;
-          padding: 15px 20px;
-          font-weight: 600;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
+      .panel-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 20px;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-        .panel-body {
-          padding: 20px;
-        }
+      .panel-body {
+        padding: 20px;
+      }
 
-        textarea {
-          width: 100%;
-          height: 400px;
-          border: 2px solid #e1e1e1;
-          border-radius: 8px;
-          padding: 15px;
-          font-family: 'Monaco', 'Menlo', monospace;
-          font-size: 14px;
-          line-height: 1.6;
-          resize: vertical;
-          transition: border-color 0.2s;
-        }
+      textarea {
+        width: 100%;
+        height: 400px;
+        border: 2px solid #e1e1e1;
+        border-radius: 8px;
+        padding: 15px;
+        font-family: 'Monaco', 'Menlo', monospace;
+        font-size: 14px;
+        line-height: 1.6;
+        resize: vertical;
+        transition: border-color 0.2s;
+      }
 
-        textarea:focus {
-          border-color: #667eea;
-          outline: none;
-        }
+      textarea:focus {
+        border-color: #667eea;
+        outline: none;
+      }
 
-        button {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          color: white;
-          border: none;
-          padding: 12px 30px;
-          border-radius: 8px;
-          font-size: 16px;
-          font-weight: 600;
-          cursor: pointer;
-          transition:
-            transform 0.2s,
-            box-shadow 0.2s;
-        }
+      button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
 
-        button:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
 
-        button:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-          transform: none;
-        }
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
 
-        .preview-container {
-          height: 400px;
-          overflow: auto;
-          border: 2px solid #e1e1e1;
-          border-radius: 8px;
-          padding: 20px;
-          background: #fafafa;
-        }
+      .preview-container {
+        height: 400px;
+        overflow: auto;
+        border: 2px solid #e1e1e1;
+        border-radius: 8px;
+        padding: 20px;
+        background: #fafafa;
+      }
 
-        .status {
-          padding: 10px 15px;
-          border-radius: 8px;
-          margin-top: 15px;
-          font-size: 14px;
-        }
+      .status {
+        padding: 10px 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+        font-size: 14px;
+      }
 
-        .status.success {
-          background: #d4edda;
-          color: #155724;
-          border: 1px solid #c3e6cb;
-        }
+      .status.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
 
-        .status.error {
-          background: #f8d7da;
-          color: #721c24;
-          border: 1px solid #f5c6cb;
-        }
+      .status.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
 
-        .theme-list {
-          display: flex;
-          gap: 10px;
-          flex-wrap: wrap;
-          margin-top: 10px;
-        }
+      .theme-list {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
 
-        .theme-item {
-          background: #f0f0f0;
-          padding: 5px 12px;
-          border-radius: 20px;
-          font-size: 12px;
-          cursor: pointer;
-          transition: background 0.2s;
-        }
+      .theme-item {
+        background: #f0f0f0;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
 
-        .theme-item:hover {
-          background: #667eea;
-          color: white;
-        }
+      .theme-item:hover {
+        background: #667eea;
+        color: white;
+      }
 
-        .theme-item.active {
-          background: #667eea;
-          color: white;
-        }
+      .theme-item.active {
+        background: #667eea;
+        color: white;
       }
     </style>
   </head>
@@ -237,21 +238,29 @@
           <button onclick="loadThemes()" style="padding: 10px 20px; font-size: 14px">刷新主题列表</button>
         </div>
       </div>
+      <div
+        id="themesContainer"
+        style="
+          background: white;
+          border-radius: 12px;
+          padding: 15px 20px;
+          margin-bottom: 20px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+          display: none;
+        "
+      >
+        <strong>可用主题：</strong>
+        <div class="theme-list" id="themeList"></div>
+      </div>
 
-      id="themesContainer" style=" background: white; border-radius: 12px; padding: 15px 20px; margin-bottom: 20px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); display: none; " >
-      <strong>可用主题：</strong>
-      <div class="theme-list" id="themeList"></div>
-    </div>
-
-    <div class="main-grid">
-      <div class="panel">
-        <div class="panel-header">
-          <span>📝 Markdown 输入</span>
-          <button onclick="renderMarkdown()">渲染</button>
-        </div>
-        <div class="panel-body">
-          <textarea id="markdownInput">
+      <div class="main-grid">
+        <div class="panel">
+          <div class="panel-header">
+            <span>📝 Markdown 输入</span>
+            <button onclick="renderMarkdown()">渲染</button>
+          </div>
+          <div class="panel-body">
+            <textarea id="markdownInput">
 # 标题测试
 
 这是一段**加粗**文字，以及*斜体*文字。
@@ -285,20 +294,20 @@ function hello() {
 ---
 
 这是正常段落文字，用来测试字体和颜色样式。
-            </textarea
-          >
-          <div id="status"></div>
+            </textarea>
+            <div id="status"></div>
+          </div>
         </div>
-      </div>
 
-      <div class="panel">
-        <div class="panel-header">
-          <span>👀 渲染预览</span>
-          <span id="readingTime" style="font-size: 12px; opacity: 0.8"></span>
-        </div>
-        <div class="panel-body">
-          <div class="preview-container" id="preview">
-            <p style="color: #999; text-align: center; padding-top: 150px">点击"渲染"按钮查看效果</p>
+        <div class="panel">
+          <div class="panel-header">
+            <span>👀 渲染预览</span>
+            <span id="readingTime" style="font-size: 12px; opacity: 0.8"></span>
+          </div>
+          <div class="panel-body">
+            <div class="preview-container" id="preview">
+              <p style="color: #999; text-align: center; padding-top: 150px">点击"渲染"按钮查看效果</p>
+            </div>
           </div>
         </div>
       </div>
