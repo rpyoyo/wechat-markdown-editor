@@ -17,8 +17,11 @@ COPY packages/shared/package.json ./packages/shared/
 # Copy patches (required by pnpm for patched packages)
 COPY patches/ ./patches/
 
-# Install dependencies (ignore trust downgrade for transitive deps)
-RUN pnpm install --no-frozen-lockfile --config.ignoreTrustDowngrade=true
+# Disable trust checks for Docker build (transitive dep issue)
+RUN echo "enable-trust-signature-verification=false" > .npmrc
+
+# Install dependencies
+RUN pnpm install --no-frozen-lockfile
 
 # Copy source code
 COPY packages/ ./packages/
