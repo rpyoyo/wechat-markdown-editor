@@ -1,0 +1,44 @@
+ARG VER_NODE=22-alpine
+
+FROM --platform=$BUILDPLATFORM "node:$VER_NODE" AS builder
+
+WORKDIR /app
+
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Copy package files
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY packages/api/package.json ./packages/api/
+COPY packages/core/package.json ./packages/core/
+COPY packages/shared/package.json ./packages/shared/
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+# Copy source code
+COPY packages/ ./packages/
+
+# Build API
+WORKDIR /app/packages/api
+RUN pnpm build
+
+# Production image
+FROM --platform=$TARGETPLATFORM "node:$VER_NODE"
+
+WORKDIR /app
+
+# Copy built files
+COPY --from=builder /app/packages/api/dist ./dist
+COPY --from=builder /app/packages/api/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
+
+# Create themes directory
+RUN mkdir -p /app/themes
+
+ENV NODE_ENV=production
+ENV PORT=3000
+
+EXPOSE 3000
+
+CMD ["node", "dist/index.js"]

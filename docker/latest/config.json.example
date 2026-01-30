@@ -1,0 +1,4 @@
+{
+  "apiKeys": ["your-api-key-here"],
+  "port": 3000
+}

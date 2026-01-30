@@ -2,6 +2,7 @@
 import { exportMergedTheme } from '@md/core'
 import { themeMap, themeOptionsMap } from '@md/shared'
 import { Download, Edit3, Eye, Plus, X } from 'lucide-vue-next'
+import ApiThemeManager from '@/components/api/ApiThemeManager.vue'
 import { useCssEditorStore } from '@/stores/cssEditor'
 import { useEditorStore } from '@/stores/editor'
 import { useRenderStore } from '@/stores/render'
@@ -423,6 +424,9 @@ function exportCurrentTheme() {
     <Download class="h-4 w-4 mr-2" />
     导出主题
   </Button>
+
+  <!-- API 主题管理 -->
+  <ApiThemeManager v-show="uiStore.isShowCssEditor" />
 
   <!-- 查看内置主题对话框 -->
   <Dialog v-model:open="isOpenViewThemeDialog">

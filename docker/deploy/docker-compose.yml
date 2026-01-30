@@ -1,0 +1,37 @@
+version: '3.8'
+
+# Docker部署配置（无需源码）
+# 使用预构建的镜像，直接拉取运行
+
+services:
+  # Nginx + Web static files
+  web:
+    image: ${REGISTRY:-your-registry}/md-web:${TAG:-latest}
+    ports:
+      - "9001:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  # API Server
+  api:
+    image: ${REGISTRY:-your-registry}/md-api:${TAG:-latest}
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    ports:
+      - "9002:3000"
+    volumes:
+      - api_themes:/app/themes
+      - ./config.json:/app/config.json:ro  # API密钥配置文件
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+volumes:
+  api_themes:
+    name: md_api_themes

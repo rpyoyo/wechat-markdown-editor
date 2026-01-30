@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Markdown API 测试</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        color: white;
+        text-align: center;
+        margin-bottom: 20px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .config-panel {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        align-items: flex-end;
+      }
+
+      .config-panel label {
+        display: block;
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 5px;
+      }
+
+      .config-panel input,
+      .config-panel select {
+        padding: 10px 15px;
+        border: 2px solid #e1e1e1;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: border-color 0.2s;
+      }
+
+      .config-panel input:focus,
+      .config-panel select:focus {
+        border-color: #667eea;
+        outline: none;
+      }
+
+      .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      @media (max-width: 900px) {
+        .main-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .panel {
+          background: white;
+          border-radius: 12px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+          overflow: hidden;
+        }
+
+        .panel-header {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          padding: 15px 20px;
+          font-weight: 600;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .panel-body {
+          padding: 20px;
+        }
+
+        textarea {
+          width: 100%;
+          height: 400px;
+          border: 2px solid #e1e1e1;
+          border-radius: 8px;
+          padding: 15px;
+          font-family: 'Monaco', 'Menlo', monospace;
+          font-size: 14px;
+          line-height: 1.6;
+          resize: vertical;
+          transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+          border-color: #667eea;
+          outline: none;
+        }
+
+        button {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          border: none;
+          padding: 12px 30px;
+          border-radius: 8px;
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          transition:
+            transform 0.2s,
+            box-shadow 0.2s;
+        }
+
+        button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+          transform: none;
+        }
+
+        .preview-container {
+          height: 400px;
+          overflow: auto;
+          border: 2px solid #e1e1e1;
+          border-radius: 8px;
+          padding: 20px;
+          background: #fafafa;
+        }
+
+        .status {
+          padding: 10px 15px;
+          border-radius: 8px;
+          margin-top: 15px;
+          font-size: 14px;
+        }
+
+        .status.success {
+          background: #d4edda;
+          color: #155724;
+          border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+          background: #f8d7da;
+          color: #721c24;
+          border: 1px solid #f5c6cb;
+        }
+
+        .theme-list {
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+          margin-top: 10px;
+        }
+
+        .theme-item {
+          background: #f0f0f0;
+          padding: 5px 12px;
+          border-radius: 20px;
+          font-size: 12px;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+
+        .theme-item:hover {
+          background: #667eea;
+          color: white;
+        }
+
+        .theme-item.active {
+          background: #667eea;
+          color: white;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚀 Markdown API 测试工具</h1>
+
+      <div class="config-panel">
+        <div>
+          <label>API 端点</label>
+          <input type="text" id="apiEndpoint" value="http://localhost:3000" style="width: 250px" />
+        </div>
+        <div>
+          <label>API Key</label>
+          <input type="password" id="apiKey" value="test123" style="width: 200px" />
+        </div>
+        <div>
+          <label>主题 ID (可选)</label>
+          <input type="text" id="themeId" placeholder="theme_xxx" style="width: 180px" />
+        </div>
+        <div>
+          <label>输出格式</label>
+          <select id="format" style="width: 150px">
+            <option value="wechat">wechat (内嵌CSS)</option>
+            <option value="html">html (内嵌CSS)</option>
+            <option value="html-plain">html-plain (分离CSS)</option>
+          </select>
+        </div>
+        <div>
+          <label>代码主题</label>
+          <select id="codeTheme" style="width: 150px">
+            <option value="github-dark" selected>GitHub Dark</option>
+            <option value="github">GitHub Light</option>
+            <option value="vs2015">VS 2015</option>
+            <option value="atom-one-dark">Atom One Dark</option>
+          </select>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; padding-top: 20px">
+          <input type="checkbox" id="isMacCodeBlock" checked />
+          <label for="isMacCodeBlock" style="margin: 0">Mac 代码块样式</label>
+        </div>
+        <div>
+          <label>&nbsp;</label>
+          <button onclick="loadThemes()" style="padding: 10px 20px; font-size: 14px">刷新主题列表</button>
+        </div>
+      </div>
+
+      id="themesContainer" style=" background: white; border-radius: 12px; padding: 15px 20px; margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); display: none; " >
+      <strong>可用主题：</strong>
+      <div class="theme-list" id="themeList"></div>
+    </div>
+
+    <div class="main-grid">
+      <div class="panel">
+        <div class="panel-header">
+          <span>📝 Markdown 输入</span>
+          <button onclick="renderMarkdown()">渲染</button>
+        </div>
+        <div class="panel-body">
+          <textarea id="markdownInput">
+# 标题测试
+
+这是一段**加粗**文字，以及*斜体*文字。
+
+## 二级标题
+
+> 这是一个引用块
+> 可以有多行
+
+### 代码示例
+
+```javascript
+function hello() {
+  console.log("Hello, World!");
+}
+```
+
+### 列表
+
+- 列表项 1
+- 列表项 2
+- 列表项 3
+
+### 表格
+
+| 名称 | 描述 |
+|------|------|
+| API | 接口服务 |
+| HTML | 超文本标记语言 |
+
+---
+
+这是正常段落文字，用来测试字体和颜色样式。
+            </textarea
+          >
+          <div id="status"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span>👀 渲染预览</span>
+          <span id="readingTime" style="font-size: 12px; opacity: 0.8"></span>
+        </div>
+        <div class="panel-body">
+          <div class="preview-container" id="preview">
+            <p style="color: #999; text-align: center; padding-top: 150px">点击"渲染"按钮查看效果</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      async function loadThemes() {
+        const endpoint = document.getElementById('apiEndpoint').value
+        const apiKey = document.getElementById('apiKey').value
+
+        try {
+          const response = await fetch(`${endpoint}/api/themes`, {
+            headers: { 'X-API-Key': apiKey },
+          })
+
+          if (!response.ok) throw new Error('Failed to load themes')
+
+          const result = await response.json()
+          if (result.success && result.data) {
+            const container = document.getElementById('themesContainer')
+            const list = document.getElementById('themeList')
+
+            list.innerHTML = result.data
+              .map((t) => `<span class="theme-item" onclick="selectTheme('${t.id}')" title="${t.id}">${t.name}</span>`)
+              .join('')
+
+            container.style.display = 'block'
+          }
+        } catch (err) {
+          showStatus('加载主题失败: ' + err.message, false)
+        }
+      }
+
+      function selectTheme(id) {
+        document.getElementById('themeId').value = id
+        document.querySelectorAll('.theme-item').forEach((el) => el.classList.remove('active'))
+        event.target.classList.add('active')
+      }
+
+      async function renderMarkdown() {
+        const endpoint = document.getElementById('apiEndpoint').value
+        const apiKey = document.getElementById('apiKey').value
+        const themeId = document.getElementById('themeId').value
+        const format = document.getElementById('format').value
+        const markdown = document.getElementById('markdownInput').value
+
+        const preview = document.getElementById('preview')
+        const status = document.getElementById('status')
+        const readingTime = document.getElementById('readingTime')
+
+        preview.innerHTML = '<p style="color: #999; text-align: center; padding-top: 150px;">渲染中...</p>'
+
+        try {
+          const isMacCodeBlock = document.getElementById('isMacCodeBlock').checked
+          const codeTheme = document.getElementById('codeTheme').value
+          const body = { markdown, format, options: { isMacCodeBlock, codeTheme } }
+          if (themeId) body.themeId = themeId
+
+          const response = await fetch(`${endpoint}/api/render`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-API-Key': apiKey,
+            },
+            body: JSON.stringify(body),
+          })
+
+          const result = await response.json()
+
+          if (result.success && result.data) {
+            preview.innerHTML = result.data.html
+            readingTime.textContent = `阅读时间: ${result.data.readingTime.minutes} 分钟`
+            showStatus(`渲染成功！字符数: ${result.data.readingTime.chars}`, true)
+          } else {
+            throw new Error(result.error || '未知错误')
+          }
+        } catch (err) {
+          preview.innerHTML = `<p style="color: #dc3545; text-align: center; padding-top: 150px;">❌ 错误: ${err.message}</p>`
+          showStatus('渲染失败: ' + err.message, false)
+        }
+      }
+
+      function showStatus(message, success) {
+        const status = document.getElementById('status')
+        status.className = 'status ' + (success ? 'success' : 'error')
+        status.textContent = message
+        setTimeout(() => {
+          status.textContent = ''
+          status.className = ''
+        }, 5000)
+      }
+
+      // Load themes on page load
+      loadThemes()
+    </script>
+  </body>
+</html>
