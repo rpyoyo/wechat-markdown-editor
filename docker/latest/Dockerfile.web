@@ -19,8 +19,8 @@ COPY packages/shared/package.json ./packages/shared/
 # Copy patches (required by pnpm)
 COPY patches/ ./patches/
 
-# Install dependencies
-RUN pnpm install --no-frozen-lockfile
+# Install dependencies (ignore scripts to skip wxt prepare which is for browser extension)
+RUN pnpm install --no-frozen-lockfile --ignore-scripts
 
 # Copy source code
 COPY apps/web ./apps/web
