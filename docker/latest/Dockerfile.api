@@ -4,27 +4,20 @@ FROM --platform=$BUILDPLATFORM "node:$VER_NODE" AS builder
 
 WORKDIR /app
 
-# Install pnpm (use v9 to avoid trust downgrade checks in v10)
+# Install pnpm
 RUN corepack enable && corepack prepare pnpm@9 --activate
 
-# Copy package files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY packages/api/package.json ./packages/api/
-COPY packages/config/package.json ./packages/config/
-COPY packages/core/package.json ./packages/core/
-COPY packages/shared/package.json ./packages/shared/
+# Copy API package files (standalone, no monorepo)
+COPY packages/api/package.docker.json ./package.json
+COPY packages/api/tsconfig.json ./
 
-# Copy patches (required by pnpm for patched packages)
-COPY patches/ ./patches/
-
-# Install dependencies
+# Install dependencies (standalone mode, no workspace)
 RUN pnpm install --no-frozen-lockfile
 
 # Copy source code
-COPY packages/ ./packages/
+COPY packages/api/src ./src
 
 # Build API
-WORKDIR /app/packages/api
 RUN pnpm build
 
 # Production image
@@ -33,8 +26,8 @@ FROM --platform=$TARGETPLATFORM "node:$VER_NODE"
 WORKDIR /app
 
 # Copy built files
-COPY --from=builder /app/packages/api/dist ./dist
-COPY --from=builder /app/packages/api/package.json ./
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/package.json ./
 COPY --from=builder /app/node_modules ./node_modules
 
 # Create themes directory

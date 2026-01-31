@@ -1,3 +1,4 @@
+import type { Express } from 'express'
 import cors from 'cors'
 /**
  * Markdown to HTML API Server
@@ -7,7 +8,7 @@ import { authMiddleware } from './middleware/auth.js'
 import renderRouter from './routes/render.js'
 import themesRouter from './routes/themes.js'
 
-const app = express()
+const app: Express = express()
 // eslint-disable-next-line node/prefer-global/process
 const PORT = process.env.PORT || 3000
 

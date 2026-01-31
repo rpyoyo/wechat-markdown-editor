@@ -1,3 +1,4 @@
+import type { IRouter } from 'express'
 /**
  * Themes API Route
  * CRUD for theme CSS files
@@ -6,7 +7,7 @@ import { Router } from 'express'
 import multer from 'multer'
 import * as themeStore from '../services/themeStore.js'
 
-const router = Router()
+const router: IRouter = Router()
 
 // Configure multer for file uploads
 const upload = multer({

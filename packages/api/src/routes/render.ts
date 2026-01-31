@@ -1,3 +1,4 @@
+import type { IRouter } from 'express'
 import type { RenderRequest } from '../types/index.js'
 /**
  * Render API Route
@@ -6,7 +7,7 @@ import type { RenderRequest } from '../types/index.js'
 import { Router } from 'express'
 import { render } from '../services/renderer.js'
 
-const router = Router()
+const router: IRouter = Router()
 
 router.post('/render', async (req, res) => {
   try {
