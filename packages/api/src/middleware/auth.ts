@@ -9,9 +9,9 @@ import { fileURLToPath } from 'node:url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
-// Try multiple config paths (Docker mounts to /app/config.json, dev uses relative path)
+// Try multiple config paths (Docker mounts to /app/config/, dev uses relative path)
 function getConfigPath(): string {
-  const dockerPath = '/app/config.json'
+  const dockerPath = '/app/config/config.json'
   const devPath = join(__dirname, '../../config.json')
 
   if (existsSync(dockerPath)) {
