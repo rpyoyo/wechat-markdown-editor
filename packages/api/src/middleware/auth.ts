@@ -8,16 +8,34 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const configPath = join(__dirname, '../../config.json')
+
+// Try multiple config paths (Docker mounts to /app/config.json, dev uses relative path)
+function getConfigPath(): string {
+  const dockerPath = '/app/config.json'
+  const devPath = join(__dirname, '../../config.json')
+
+  if (existsSync(dockerPath)) {
+    console.log('[Auth] Using Docker config path:', dockerPath)
+    return dockerPath
+  }
+  console.log('[Auth] Using dev config path:', devPath)
+  return devPath
+}
+
+const configPath = getConfigPath()
 
 // Load API keys from config file
 function loadApiKeys(): Set<string> {
+  console.log('[Auth] Loading API keys from:', configPath)
   try {
     if (existsSync(configPath)) {
       const config = JSON.parse(readFileSync(configPath, 'utf-8'))
       const keys = config.apiKeys || []
-      return new Set(keys.filter((k: string) => k && k !== 'your-api-key-here'))
+      const validKeys = keys.filter((k: string) => k && k !== 'your-api-key-here')
+      console.log('[Auth] Loaded', validKeys.length, 'valid API key(s)')
+      return new Set(validKeys)
     }
+    console.warn('[Auth] Config file not found:', configPath)
   }
   catch (err) {
     console.warn('[Auth] Failed to load config.json:', err)
