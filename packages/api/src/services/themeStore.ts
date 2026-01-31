@@ -13,8 +13,21 @@ import { nanoid } from 'nanoid'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// Themes directory is at packages/api/themes (relative to src/services/)
-const THEMES_DIR = path.resolve(__dirname, '..', '..', 'themes')
+// Get themes directory (Docker uses /app/themes, dev uses relative path)
+function getThemesDir(): string {
+  const dockerPath = '/app/themes'
+  const devPath = path.resolve(__dirname, '..', '..', 'themes')
+
+  // In Docker, __dirname is /app/dist, so check if we're in that context
+  if (__dirname.startsWith('/app/') && existsSync('/app')) {
+    console.log(`[ThemeStore] Using Docker themes path: ${dockerPath}`)
+    return dockerPath
+  }
+  console.log(`[ThemeStore] Using dev themes path: ${devPath}`)
+  return devPath
+}
+
+const THEMES_DIR = getThemesDir()
 const METADATA_FILE = path.join(THEMES_DIR, 'metadata.json')
 
 // Log path for debugging
