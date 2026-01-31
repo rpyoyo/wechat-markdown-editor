@@ -4,8 +4,8 @@ FROM --platform=$BUILDPLATFORM "node:$VER_NODE" AS builder
 
 WORKDIR /app
 
-# Install pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+# Install pnpm (use v9 to avoid trust downgrade checks in v10)
+RUN corepack enable && corepack prepare pnpm@9 --activate
 
 # Copy package files
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
@@ -16,9 +16,6 @@ COPY packages/shared/package.json ./packages/shared/
 
 # Copy patches (required by pnpm for patched packages)
 COPY patches/ ./patches/
-
-# Disable trust checks for Docker build (transitive dep issue)
-RUN echo "enable-trust-signature-verification=false" > .npmrc
 
 # Install dependencies
 RUN pnpm install --no-frozen-lockfile
