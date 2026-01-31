@@ -26,9 +26,9 @@ RUN pnpm install --no-frozen-lockfile --ignore-scripts
 COPY apps/web ./apps/web
 COPY packages ./packages
 
-# Build web app
+# Build web app (use build:only to skip type-check since auto-import types are not generated)
 WORKDIR /app/apps/web
-RUN pnpm build
+RUN pnpm build:only
 
 # Nginx production image
 FROM --platform=$TARGETPLATFORM nginx:$VER_NGX
