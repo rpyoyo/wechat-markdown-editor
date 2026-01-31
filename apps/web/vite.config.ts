@@ -9,7 +9,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig, loadEnv } from 'vite'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
-import { VitePluginRadar } from 'vite-plugin-radar'
+// import { VitePluginRadar } from 'vite-plugin-radar'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 import { utoolsLocalAssetsPlugin } from './plugins/vite-plugin-utools-local-assets'
@@ -42,9 +42,9 @@ export default defineConfig(({ mode }) => {
         // fs: 'memfs',
         },
       }),
-      VitePluginRadar({
-        analytics: { id: `G-7NZL3PZ0NK` },
-      }),
+      // VitePluginRadar({
+      //   analytics: { id: `G-7NZL3PZ0NK` },
+      // }),
       ...(process.env.ANALYZE === `true` ? [visualizer({ emitFile: true, filename: `stats.html` }) as any] : []),
       AutoImport({
         imports: [`vue`, `pinia`, `@vueuse/core`],
