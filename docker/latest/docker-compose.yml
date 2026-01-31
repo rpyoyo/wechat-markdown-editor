@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  # Nginx + Web static files
+  # Nginx + Web static files (从源码构建)
   web:
     build:
       context: ../..
-      dockerfile: docker/latest/Dockerfile.nginx
+      dockerfile: docker/latest/Dockerfile.web
     ports:
       - "9001:80"
     depends_on:
