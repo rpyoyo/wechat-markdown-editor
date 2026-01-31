@@ -10,7 +10,6 @@ node_modules
 
 # production
 /build
-dist
 
 # misc
 .DS_Store
@@ -61,3 +60,5 @@ apps/utools/release
 apps/web/public/static/libs/mathjax
 apps/web/public/static/libs/mermaid
 apps/web/public/static/libs/article-syncjs
+
+packages/api/dist
